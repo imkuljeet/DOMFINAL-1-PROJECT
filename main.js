@@ -1,5 +1,6 @@
 var form = document.getElementById('addForm');
 var itemList=document.getElementById('items');
+var filter=document.getElementById('filter')
 
 // FORM SUBMIT EVENT
 
@@ -7,6 +8,9 @@ form.addEventListener('submit', addItem);
 
 // DELETE EVENT
 itemList.addEventListener('click', removeItem);
+
+// FILTER EVENT
+filter.addEventListener('keyup',filterItems);
 
 // ADD ITEM
 
@@ -51,4 +55,23 @@ function removeItem(e){
             itemList.removeChild(li);
         }
     }
+}
+
+
+// FILTER ITEMS
+
+function filterItems(e) {
+    // CONVERT TEXT TO LOWERCASE
+    var text = e.target.value.toLowerCase();
+    var items = itemList.getElementsByTagName('li');
+    // CONVERT TO AN ARRAY
+    Array.from(items).forEach(function(item) { // Corrected the closing parenthesis here
+        var itemName = item.firstChild.textContent;
+
+        if (itemName.toLowerCase().indexOf(text) !== -1) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
 }
