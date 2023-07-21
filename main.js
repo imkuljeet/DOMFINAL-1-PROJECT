@@ -5,6 +5,9 @@ var itemList=document.getElementById('items');
 
 form.addEventListener('submit', addItem);
 
+// DELETE EVENT
+itemList.addEventListener('click', removeItem);
+
 // ADD ITEM
 
 function addItem(e){
@@ -37,4 +40,15 @@ function addItem(e){
 
     // APPEND LI TO LIST
     itemList.appendChild(li);
+
+
+}
+
+function removeItem(e){
+    if(e.target.classList.contains('delete')){
+        if(confirm('Are you Sure?')){
+            var li = e.target.parentElement;
+            itemList.removeChild(li);
+        }
+    }
 }
