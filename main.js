@@ -1,70 +1,83 @@
 var form = document.getElementById('addForm');
-    var itemList = document.getElementById('items');
-    var filter = document.getElementById('filter')
+var itemList=document.getElementById('items');
+var filter=document.getElementById('filter')
 
-    // FORM SUBMIT EVENT
-    form.addEventListener('submit', addItem);
+// FORM SUBMIT EVENT
 
-    // DELETE EVENT
-    itemList.addEventListener('click', removeItem);
+form.addEventListener('submit', addItem);
 
-    // FILTER EVENT
-    filter.addEventListener('keyup', filterItems);
+// DELETE EVENT
+itemList.addEventListener('click', removeItem);
 
-    // ADD ITEM
-    function addItem(e) {
-      e.preventDefault();
+// FILTER EVENT
+filter.addEventListener('keyup',filterItems);
 
-      // GET INPUT VALUES
-      var newItem = document.getElementById('item').value;
-      var newDescription = document.getElementById('description').value;
+// ADD ITEM
 
-      // CREATE NEW LI ELEMENT
-      var li = document.createElement('li');
+function addItem(e){
+    e.preventDefault();
+    
+    // GET INPUT VALUE
+    var newItem=document.getElementById('item').value;
+    var description = document.getElementById('description').value;
 
-      // ADD CLASS
-      li.className = 'list-group-item';
+    // CREATE NEW LI ELEMENT
+    var li=document.createElement('li');
 
-      // ADD TEXT NODE WITH INPUT VALUES
-      li.innerHTML = `<strong>${newItem}</strong> ${newDescription}`;
+    // ADD CLASS
+    li.className = 'list-group-item';
+    console.log(li);
 
-      // CREATE DEL BUTTON ELEMENT
-      var deleteBtn = document.createElement('button');
+    // ADD TEXT NODE WITH INPUT VALUE
+    li.appendChild(document.createTextNode(newItem));
+    li.appendChild(document.createTextNode(" "+description));
 
-      // ADD CLASSES TO DELETE BUTTON
-      deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
+    // CREATE DEL BUTTON ELEMENT
+    var deleteBtn = document.createElement('button');
 
-      // APPEND TEXT NODE
-      deleteBtn.appendChild(document.createTextNode('x'));
+    // ADD CLASSES TO DELETE BUTTON
+    deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
 
-      // APPEND BUTTON TO LI
-      li.appendChild(deleteBtn);
+    // APPEND TEXT NODE
+    deleteBtn.appendChild(document.createTextNode('x'));
 
-      // APPEND LI TO LIST
-      itemList.appendChild(li);
-    }
+    //APPEND BUTTON TO LI
+    li.appendChild(deleteBtn);
 
-    function removeItem(e) {
-      if (e.target.classList.contains('delete')) {
-        if (confirm('Are you Sure?')) {
-          var li = e.target.parentElement;
-          itemList.removeChild(li);
+    // APPEND LI TO LIST
+    itemList.appendChild(li);
+
+
+}
+
+function removeItem(e){
+    if(e.target.classList.contains('delete')){
+        if(confirm('Are you Sure?')){
+            var li = e.target.parentElement;
+            itemList.removeChild(li);
         }
-      }
     }
+}
 
-    // FILTER ITEMS
-    function filterItems(e) {
-      // CONVERT TEXT TO LOWERCASE
-      var text = e.target.value.toLowerCase();
-      var items = itemList.getElementsByTagName('li');
 
-      Array.from(items).forEach(function (item) {
-        var itemText = item.textContent.toLowerCase();
-        if (itemText.includes(text)) {
-          item.style.display = 'block';
+// FILTER ITEMS
+
+function filterItems(e) {
+    // CONVERT TEXT TO LOWERCASE
+    var text = e.target.value.toLowerCase();
+    var items = itemList.getElementsByTagName('li');//ARRAY OF NODES
+
+    // Loop through the items
+    for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        var itemName = item.firstChild.textContent;
+        var description = item.childNodes[1].textContent;
+
+        if (itemName.toLowerCase().indexOf(text) !== -1 || description.toLocaleLowerCase().indexOf(text)!= -1) {
+            item.style.display = 'block';
         } else {
-          item.style.display = 'none';
+            item.style.display = 'none';
         }
-      });
     }
+}
+ 
